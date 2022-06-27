@@ -1,0 +1,49 @@
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+group 'kim.lws.sample.server'
+version '0.1.0'
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':sample-thrift')
+
+    // Adjust the list as you need.
+    ['armeria',
+     'armeria-logback',
+     'armeria-thrift0.13'].each {
+        implementation "com.linecorp.armeria:${it}:1.16.0"
+    }
+
+    // Logging
+    runtimeOnly 'ch.qos.logback:logback-classic:1.2.11'
+    runtimeOnly 'org.slf4j:log4j-over-slf4j:1.7.36'
+}
+
+application {
+    mainClass.set('kim.lws.sample.server.MainApplication')
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+    options.encoding = 'UTF-8'
+    options.debug = true
+    options.compilerArgs += '-parameters'
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.microsoft.thrifty:thrifty-gradle-plugin:3.1.0-RC02'
+    }
+}
+apply plugin: 'com.microsoft.thrifty'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.thrift:libthrift:0.16.0'
+    implementation 'com.microsoft.thrifty:thrifty-runtime:3.1.0-RC02'
+}
+
+// It doesn't make IFace block.
+// https://github.com/microsoft/thrifty/blob/master/thrifty-gradle-plugin/README.md
+thrifty {
+    sourceDirs 'src/main/thrift/sample/v1', 'src/main/thrift/sample/v2'
+    outputDir 'src/main/java'
+    java {
+        nameStyle 'java'
+    }
+}
+
+task generateThriftyFiles(type: Exec){
+    def list = [
+            'bin/build_thrift_v1.sh',
+            'bin/build_thrift_v2.sh'
+    ]
+    commandLine list
+}
+

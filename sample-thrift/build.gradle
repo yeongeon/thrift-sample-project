@@ -1,0 +1,32 @@
+
+plugins {
+    id 'java'
+    id "org.jruyi.thrift" version "0.4.2"
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+//    implementation 'org.apache.thrift:libthrift:0.16.0'
+
+    // Adjust the list as you need.
+    ['armeria-thrift0.13'].each {
+        implementation "com.linecorp.armeria:${it}:1.16.0"
+    }
+}
+
+compileThrift {
+    //
+}
+
+task compileThriftGolang(type: Exec){
+    def list = [
+//            'bin/build_thrift_v1.sh',
+            'bin/build_thrift_v2.sh'
+    ]
+    commandLine list
+}
+

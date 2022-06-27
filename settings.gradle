@@ -1,0 +1,4 @@
+rootProject.name = 'thrift-sample-project'
+include 'sample-server'
+include 'sample-thrift'
+
